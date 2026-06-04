@@ -1,0 +1,111 @@
+server:
+  port: 8123
+  servlet:
+    context-path: /api
+    session:
+      cookie:
+        max-age: 2592000
+spring:
+  application:
+    name: ai-passage-creator
+  session:
+    store-type: redis
+    timeout: 2592000
+  # MySQL：【⚠️替换宝塔数据库账号、密码】
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/ai_passage_creator?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: ${MYSQL_USERNAME:ai_passage_creator}
+    password: ${MYSQL_PASSWORD:your-mysql-password}
+  # Redis：【⚠️替换宝塔Redis密码】
+  data:
+    redis:
+      database: 0
+      host: 127.0.0.1
+      port: 6379
+      timeout: 5000
+      password: ${REDIS_PASSWORD:}
+  # AI密钥沿用本地，不用改，符合spring ai alibaba规范
+  ai:
+    alibaba:
+      dashscope:
+        api-key: ${DASHSCOPE_API_KEY:your-dashscope-api-key}
+        chat:
+          options:
+            model: qwen-turbo
+
+mybatis-flex:
+  configuration:
+    # 生产关闭日志，和教程prod配置统一
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath*:mapper/**/*.xml
+  type-aliases-package: com.ysw.aipassagecreator.model.entity
+  enabled: true
+
+# knife4j【⚠️自定义登录密码】
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+  basic:
+    enable: true
+    username: admin
+    password: ${KNIFE4J_PASSWORD:your-knife4j-password}
+
+springdoc:
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.ysw.aipassagecreator.controller
+
+# 下面全部密钥、配置照搬你本地，和教程结构一致无需修改
+pexels:
+  api-key: ${PEXELS_API_KEY:your-pexels-api-key}
+tencent:
+  cos:
+    secret-id: ${TENCENT_COS_SECRET_ID:your-cos-secret-id}
+    secret-key: ${TENCENT_COS_SECRET_KEY:your-cos-secret-key}
+    bucket: ai-passage-creator-1434558359
+    region: ap-guangzhou
+article:
+  agent:
+    orchestrator:
+      enabled: true
+    max-iterations: 10
+
+stripe:
+  api-key: ${STRIPE_API_KEY:your-stripe-api-key}
+  webhook-secret: ${STRIPE_WEBHOOK_SECRET:your-stripe-webhook-secret}
+  success-url: "${APP_BASE_URL:http://localhost:5173}/vip?success=true"
+  cancel-url: "${APP_BASE_URL:http://localhost:5173}/vip?cancelled=true"
+
+nano-banana:
+  api-key: xxx
+  model: gemini-3-pro-image-preview
+  aspect-ratio: "16:9"
+  image-size: "1K"
+  output-mime-type: image/png
+
+mermaid:
+  cli-command: mmdc
+  background-color: transparent
+  output-format: svg
+  width: 1200
+  timeout: 30000
+
+iconify:
+  api-url: https://api.iconify.design
+  search-limit: 10
+  default-height: 64
+  default-color: ""
+
+emoji-pack:
+  search-url: https://cn.bing.com/images/async
+  suffix: 熊猫头表情包
+  timeout: 10000
+
+svg-diagram:
+  default-width: 800
+  default-height: 600
+  folder: svg-diagrams

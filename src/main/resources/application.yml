@@ -1,0 +1,77 @@
+spring:
+  ai:
+    dashscope:
+      api-key: ${DASHSCOPE_API_KEY:your-dashscope-api-key}
+      chat:
+        options:
+          model: qwen-turbo
+  application:
+    name: ai-passage-creator
+
+  profiles:
+    active: local
+  # session 配置
+  session:
+    store-type: redis
+    # session 30 天过期
+    timeout: 2592000
+  # MySQL 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ai_passage_creator
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:your-mysql-password}
+  # Redis 配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      password:
+      # MyBatis-Flex 配置
+mybatis-flex:
+  configuration:
+    map-underscore-to-camel-case: true
+  # Mapper 接口扫描路径
+  mapper-locations: classpath*:mapper/**/*.xml
+  # 实体类扫描路径（用于自动识别表结构）
+  type-aliases-package: com.ysw.aipassagecreator.model.entity
+  # 启用 MyBatis-Flex 自动配置
+  enabled: true
+server:
+  port: 8567
+  servlet:
+    context-path: /api
+    # cookie 30 天过期
+    session:
+      cookie:
+        max-age: 2592000
+# springdoc-openapi 配置
+springdoc:
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.ysw.aipassagecreator.controller
+# knife4j 接口文档配置
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+pexels:
+  api-key: ${PEXELS_API_KEY:your-pexels-api-key}
+tencent:
+  cos:
+    secret-id: ${TENCENT_COS_SECRET_ID:your-cos-secret-id}
+    secret-key: ${TENCENT_COS_SECRET_KEY:your-cos-secret-key}
+    bucket: ai-passage-creator-1434558359
+    region: ap-guangzhou
+# 文章智能体配置
+article:
+  agent:
+    orchestrator:
+      # 是否启用多智能体编排模式（支持配图并行生成）
+      # true: 使用 Spring AI Alibaba 多智能体编排
+      # false: 使用原有的 ArticleAgentService
+      enabled: true
+    # Agent 最大迭代次数
+    max-iterations: 10
