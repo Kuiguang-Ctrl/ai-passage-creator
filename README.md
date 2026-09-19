@@ -153,8 +153,11 @@ npm run dev
 | POST | `/article/create` | 创建任务，进入阶段一（生成标题） |
 | POST | `/article/confirm-title` | 选定标题，进入阶段二（生成大纲） |
 | POST | `/article/confirm-outline` | 确认大纲，进入阶段三（正文 + 配图） |
-| GET | `/article/sse/{taskId}` | 建立 SSE 连接，接收实时进度 |
-| GET | `/article/get/vo` | 查询文章详情 |
+| GET | `/article/progress/{taskId}` | 建立 SSE 连接，接收实时进度 |
+| GET | `/article/{taskId}` | 查询文章详情 |
+| POST | `/article/list` | 分页查询文章列表 |
+| POST | `/article/delete` | 删除文章 |
+| GET | `/article/execution-logs/{taskId}` | 查询 Agent 执行日志 |
 
 ## 说明
 
